@@ -15,15 +15,18 @@ IallergicFra=['Gluten', 'lait', 'cacahuètes', 'soja', 'thon', 'œufs', 'poisson
 IallergicRus=['Глютен', 'молоко', 'арахис', 'соя', 'тунец', 'яйца', 'рыба', 'орехи', 'миндалины']
 IallergicSpa=['Gluten', 'leche', 'maní', 'soja', 'atún', 'huevos', 'pescado', 'nueces', 'amígdalas']
 
-def try3(arrAllerg):
-  image = cv2.imread('alrg1.jpeg',0)
-  thresh = cv2.threshold(image, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)[1]
+def try3(arrAllerg,path):
+  path = path.replace('\\\\', "/")
+  path=path.replace("[\'","")
+  path=path.replace("\']","")
+  image = cv2.imread(path, cv2.IMREAD_GRAYSCALE)
+  #thresh = cv2.threshold(image, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)[1]
 
-  result = 255 - thresh
+  result = 255 - image
 
   #data = pytesseract.image_to_string(result, lang='eng',config='--psm 10 ')
   #print(data)
-  cv2.imwrite('thresh.png', thresh)
+  cv2.imwrite('thresh.png', image)
   cv2.imwrite('result.png', result)
 
   img = Image.open('thresh.png')
@@ -63,3 +66,4 @@ def try3(arrAllerg):
 
   else:
       return("With an appetite!")
+

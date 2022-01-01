@@ -83,3 +83,20 @@
             size_hint:(None,None)
             text:"Click me"
             on_press: root.say_hello()
+
+        Button:
+            size:(80,80)
+            size_hint:(None,None)
+            text:"open file"
+            on_press: root.upload_file()
+        Button:
+            size:(80,80)
+            size_hint:(None,None)
+            text:"camera"
+            on_press: root.camera()
+
+		Label:
+			id: Path
+			text: ""
+			font_size:20
+			BoxLayout:

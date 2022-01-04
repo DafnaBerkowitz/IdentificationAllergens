@@ -15,7 +15,7 @@ IallergicFra=['Gluten', 'lait', 'cacahuètes', 'soja', 'thon', 'œufs', 'poisson
 IallergicRus=['Глютен', 'молоко', 'арахис', 'соя', 'тунец', 'яйца', 'рыба', 'орехи', 'миндалины']
 IallergicSpa=['Gluten', 'leche', 'maní', 'soja', 'atún', 'huevos', 'pescado', 'nueces', 'amígdalas']
 
-def try3(arrAllerg,path):
+def try3(arrAllerg,path,lang):
   path = path.replace('\\\\', "/")
   path=path.replace("[\'","")
   path=path.replace("\']","")
@@ -43,7 +43,20 @@ def try3(arrAllerg,path):
 
   # Print the text
   #print(out_below)
-  data = pytesseract.image_to_string(img, lang='eng')
+
+  if lang=="English":
+    data = pytesseract.image_to_string(img, lang='eng')
+    arrAllergLang=IallergicEng
+  if lang == "Spanish":
+      data = pytesseract.image_to_string(img, lang='spa')
+      arrAllergLang = IallergicSpa
+  if lang == "Russian":
+      data = pytesseract.image_to_string(img, lang='rus')
+      arrAllergLang = IallergicRus
+  if lang == "French":
+      data = pytesseract.image_to_string(img, lang='fre')
+      arrAllergLang = IallergicFra
+
   print(data)
 
   data=data.replace(',', '')
@@ -53,7 +66,7 @@ def try3(arrAllerg,path):
   dataArry= dataLower.split()
   cantEat=False
   for i in arrAllerg:
-      word=IallergicEng[int(i)]
+      word=arrAllergLang[int(i)]
       wlower = word.lower()
       for j in dataArry:
           jlower = j.lower()

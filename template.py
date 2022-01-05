@@ -27,7 +27,7 @@ from plyer import filechooser
 import codeProject
 
 tops=''
-IallergicEng=['Gluten','milk','peanuts','Soy','tuna','Eggs','Fish','nuts','tonsils']
+IallergicEng=['Gluten','Milk','Peanuts','Soy','Tuna','Eggs','Fish','Nuts','Tonsils']
 class ListItemWithCheckbox(OneLineAvatarIconListItem):
     '''Custom list item.'''
     icon = StringProperty("android")
@@ -167,8 +167,8 @@ class AllergScreen(Screen):
          self.ids.scroll.add_widget(ListItemWithCheckbox(text=f"Tuna", icon="fish"))
          self.ids.scroll.add_widget(ListItemWithCheckbox(text=f"Eggs", icon="egg"))
          self.ids.scroll.add_widget(ListItemWithCheckbox(text=f"Fish", icon="fish"))
-         self.ids.scroll.add_widget(ListItemWithCheckbox(text=f"nuts", icon="nut"))
-         self.ids.scroll.add_widget(ListItemWithCheckbox(text=f"tonsils", icon="nut"))
+         self.ids.scroll.add_widget(ListItemWithCheckbox(text=f"Nuts", icon="nut"))
+         self.ids.scroll.add_widget(ListItemWithCheckbox(text=f"Tonsils", icon="nut"))
 
 
     def save_checked(self):

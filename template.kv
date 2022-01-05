@@ -1,0 +1,137 @@
+#from kivymd.uix.selectioncontrol import MDCheckbox
+  #:import MDDropdownMenu kivymd.uix.menu.MDDropdownMenu
+ScreenManager:
+    MenuScreen:
+    UploadScreen:
+    AllergScreen:
+    Lang:
+
+
+
+
+<MenuScreen>:
+    name: 'menu'
+
+	orientation: "vertical"
+	size: root.width, root.height
+
+    MDRectangleFlatButton:
+        text: 'Profile'
+        pos_hint: {'center_x':0.5,'center_y':0.5}
+        on_press: root.manager.current = 'profile'
+    MDRectangleFlatButton:
+        text: 'Upload'
+        pos_hint: {'center_x':0.5,'center_y':0.4}
+        on_press: root.manager.current = 'upload'
+    MDRectangleFlatButton:
+        text: 'Allerg'
+        pos_hint: {'center_x':0.5,'center_y':0.3}
+        on_press: root.manager.current = 'allerg'
+
+
+
+
+
+
+
+
+<UploadScreen>:
+    name: 'upload'
+
+    Image:
+        id: my_image
+        source: "galleryToCameraPage.png"
+        size_hint_y: None  # Tells the layout to ignore the size_hint in y dir
+        height: dp(300)  # The fixed height you want
+        pos_hint: {'center_x':0.5,'center_y':0.5}
+
+
+    MDLabel:
+        text: 'select or take a picture of your product'
+        pos_hint: {'center_x': .7, 'center_y': .9}
+    MDRectangleFlatButton:
+        text: 'Back'
+        pos_hint: {'center_x':0.3,'center_y':0.1}
+        # on_press: root.manager.current = 'menu'
+        on_press: root.on_upload_back()
+    MDRectangleFlatButton:
+        id: camera_button
+        text: 'Start Camera'
+        pos_hint: {'center_x':0.7,'center_y':0.1}
+        on_press:
+            root.start_camera()
+
+    MDRectangleFlatButton:
+        id: uploued_button
+        text: 'Uploading an image'
+        pos_hint: {'center_x':0.5,'center_y':0.1}
+        on_press: root.upload_file()
+
+    MDRaisedButton:
+        pos_hint: {'center_x': .9, 'center_y': .04}
+        text: "next"
+        on_release:
+            root.manager.current = 'lang'
+
+<AllergScreen>:
+    name: 'allerg'
+
+    MDLabel:
+        text: 'Select your Allergan'
+        pos_hint: {'center_x': .9, 'center_y': .9}
+
+    ScrollView:
+
+        scroll_timeout : 100
+        pos_hint: {'center_x': .5, 'center_y': .4}
+        MDList:
+            id: scroll
+            padding:20
+
+    MDRaisedButton:
+        pos_hint: {'center_x': .9, 'center_y': .04}
+        text: "next"
+        on_release:
+            root.save_checked()
+            root.manager.current = 'upload'
+
+<ListItemWithCheckbox>:
+
+    IconLeftWidget:
+        icon: root.icon
+
+    RightCheckbox:
+        listItem: root
+        id: cb
+
+
+<Lang>:
+    name: 'lang'
+    MDRectangleFlatButton:
+        id: startProcess
+        text: 'start'
+        pos_hint: {'center_x':0.5,'center_y':0.1}
+        on_press: root.startProcess()
+    MDTextField:
+        id: field
+        pos_hint: {'center_x': .5, 'center_y': .6}
+        size_hint_x: None
+        width: "200dp"
+        hint_text: "Choose your product language"
+        on_focus: if self.focus:root.on_enter(*args)
+    MDLabel:
+        id: ansLabel
+        text: ''
+        pos_hint: {'center_x': .7, 'center_y': .9}
+
+
+
+
+<IconListItem>
+
+    IconLeftWidget:
+        icon: root.icon
+    MDScreen
+
+
+

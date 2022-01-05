@@ -151,6 +151,9 @@ class Lang(Screen):
       str=codeProject.try3(allerg,path,lang)
       self.ids.ansLabel.text=str
 
+    def restart(self):
+        self.manager.screens[0].restart()
+
 class IconListItem(OneLineIconListItem):
     icon = StringProperty()
 class AllergScreen(Screen):
@@ -183,7 +186,7 @@ class AllergScreen(Screen):
         print(allergList)
         return allergList
 class DemoApp(MDApp):
-
+    
     def build(self):
 
 

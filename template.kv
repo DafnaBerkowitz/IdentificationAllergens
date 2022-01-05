@@ -1,6 +1,7 @@
 #from kivymd.uix.selectioncontrol import MDCheckbox
   #:import MDDropdownMenu kivymd.uix.menu.MDDropdownMenu
 ScreenManager:
+
     MenuScreen:
     UploadScreen:
     AllergScreen:
@@ -54,16 +55,17 @@ ScreenManager:
         pos_hint: {'center_x':0.3,'center_y':0.1}
         # on_press: root.manager.current = 'menu'
         on_press: root.on_upload_back()
-    MDRectangleFlatButton:
+    MDIconButton:
         id: camera_button
-        text: 'Start Camera'
+        icon:"camera.png"
         pos_hint: {'center_x':0.7,'center_y':0.1}
         on_press:
             root.start_camera()
 
-    MDRectangleFlatButton:
+    MDIconButton:
         id: uploued_button
-        text: 'Uploading an image'
+        icon:"upload_file.png"
+
         pos_hint: {'center_x':0.5,'center_y':0.1}
         on_press: root.upload_file()
 
@@ -95,6 +97,7 @@ ScreenManager:
             root.save_checked()
             root.manager.current = 'upload'
 
+
 <ListItemWithCheckbox>:
 
     IconLeftWidget:
@@ -123,6 +126,12 @@ ScreenManager:
         id: ansLabel
         text: ''
         pos_hint: {'center_x': .7, 'center_y': .9}
+    MDRectangleFlatButton:
+        text: 'Back'
+        pos_hint: {'center_x': .3, 'center_y': .04}
+        on_press: root.manager.current = 'upload'
+
+
 
 
 

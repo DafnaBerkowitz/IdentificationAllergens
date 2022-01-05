@@ -195,9 +195,14 @@ class Lang(Screen):
            strAnswer+=whynot
            strAnswer+="\n"+"From your list of allergens. Do not eat!"
       else:
-          strAnswer="This product does not contain products from your list of allergens. enjoy your meal!"
+          strAnswer="This product does not contain products\n from your list of allergens.\n enjoy your meal!"
 
       self.ids.ansLabel.text=strAnswer#Receiving a final answer
+      if not caneat:
+          self.ids.ansLabel.color=.54,.09,.09
+      else:
+          self.ids.ansLabel.color = .03, .6, .9, 1
+
 
 
 

@@ -188,8 +188,16 @@ class Lang(Screen):
       lang=self.ids.field.text#language
       allerg=AllergScreen.save_checked(self.manager.screens[2])#List of allergens
       path= self.manager.screens[1].ids.my_image.source
-      str=codeProject.Answer_processing(allerg,path,lang)#sending to processing
-      self.ids.ansLabel.text=str#Receiving a final answer
+      whynot,caneat=codeProject.Answer_processing(allerg,path,lang)#sending to processing
+      strAnswer=""
+      if not caneat:
+           strAnswer="The product contains: \n"
+           strAnswer+=whynot
+           strAnswer+="\n"+"From your list of allergens. Do not eat!"
+      else:
+          strAnswer="This product does not contain products from your list of allergens. enjoy your meal!"
+
+      self.ids.ansLabel.text=strAnswer#Receiving a final answer
 
 
 

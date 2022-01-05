@@ -69,7 +69,9 @@ def Answer_processing(arrAllerg, path, lang):
   dataLower=data.lower()
 
   dataArry= dataLower.split()#Division into an array
-  cantEat=False
+  whyNot=""
+  caneat=True
+  
   #We will go through the list of allergens from the user and look in the text layout
   for i in arrAllerg:
       word=arrAllergLang[int(i)]
@@ -77,12 +79,8 @@ def Answer_processing(arrAllerg, path, lang):
       for j in dataArry:
           jlower = j.lower()
           if wlower==jlower:
-              cantEat=True
-              break
+              whyNot+=IallergicEng[int(i)]+', '
+              caneat =False
 
-  if cantEat==True:
-      return("You can't eat this!")
-
-  else:
-      return("With an appetite!")
+  return whyNot,caneat
 

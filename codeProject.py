@@ -54,7 +54,7 @@ def try3(arrAllerg,path,lang):
       data = pytesseract.image_to_string(img, lang='rus')
       arrAllergLang = IallergicRus
   if lang == "French":
-      data = pytesseract.image_to_string(img, lang='fre')
+      data = pytesseract.image_to_string(img, lang='fra')
       arrAllergLang = IallergicFra
 
   print(data)

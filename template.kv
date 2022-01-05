@@ -29,7 +29,7 @@ ScreenManager:
         pos_hint: {'center_x':0.5,'center_y':0.3}
         on_press:
             root.manager.current = 'allerg'
-            text_color: "#211c29"
+
 
 
 
@@ -52,6 +52,7 @@ ScreenManager:
 
     MDLabel:
         text: 'select or take a picture of your product'
+        color:.03, .6, .9, 1
         font_size:"40"
         font_name:"Sticky Notes.ttf"
 
@@ -94,6 +95,7 @@ ScreenManager:
 
     MDLabel:
         text: 'Select your Allergan'
+        color:.03, .6, .9, 1
         font_name: 'Sticky Notes.ttf'
         font_size: "32"
         pos_hint: {'center_x': .9, 'center_y': .9}
@@ -106,8 +108,8 @@ ScreenManager:
         do_scroll_x: False
         pos_hint: {'top': 1}
         bar_width: 8
-        bar_color: .03, .6, .9, 1   # red
-        bar_inactive_color: .5, .5, .5, 1   # blue
+        bar_inactive_color: .03, .6, .9, 1
+        bar_color: .5, .5, .5, 1
         effect_cls: "ScrollEffect"
         scroll_type: ['bars']
 

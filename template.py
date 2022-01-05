@@ -1,7 +1,5 @@
 from kivy.uix import dropdown
 from kivy.uix.dropdown import DropDown
-
-
 from kivymd.app import MDApp
 from kivy.lang.builder import Builder
 from kivy.uix.screenmanager import Screen
@@ -27,34 +25,82 @@ from kivy.uix.scrollview import ScrollView
 from plyer import filechooser
 import codeProject
 
-tops=''
+
 IallergicEng=['Gluten','Milk','Peanuts','Soy','Tuna','Eggs','Fish','Nuts','Tonsils']
+
+'''
+for AllergScreen
+'''
 class ListItemWithCheckbox(OneLineAvatarIconListItem):
     '''Custom list item.'''
     icon = StringProperty("android")
+
 class RightCheckbox(IRightBodyTouch, MDCheckbox):
     '''Custom right container.'''
     def on_active(self, rcb, value):
 
             self.data = value
+        #for using icons
+class IconListItem(OneLineIconListItem):
+    icon = StringProperty()
 
+
+'''
+Application opening screen
+'''
 class MenuScreen(Screen):
    pass
 
 
+'''
+Screen for selecting the desired allergens for testing
+'''
+class AllergScreen(Screen):
+    '''
+    initialization
+    '''
+    def on_enter(self, *args):
+        x = len(self.ids.scroll.children)
+        if (x == 0):#In order not to reboot the list every time you return to the screen
+         icons = list(md_icons.keys())
+
+         self.ids.scroll.add_widget(ListItemWithCheckbox(text=f"Gluten" , icon="bread-slice"))
+         self.ids.scroll.add_widget( ListItemWithCheckbox(text=f"Milk", icon="cow"))
+         self.ids.scroll.add_widget(ListItemWithCheckbox(text=f"Peanuts", icon="peanut"))
+         self.ids.scroll.add_widget(ListItemWithCheckbox(text=f"Soy", icon="soy-sauce"))
+         self.ids.scroll.add_widget(ListItemWithCheckbox(text=f"Tuna", icon="fish"))
+         self.ids.scroll.add_widget(ListItemWithCheckbox(text=f"Eggs", icon="egg"))
+         self.ids.scroll.add_widget(ListItemWithCheckbox(text=f"Fish", icon="fish"))
+         self.ids.scroll.add_widget(ListItemWithCheckbox(text=f"Nuts", icon="nut"))
+         self.ids.scroll.add_widget(ListItemWithCheckbox(text=f"Tonsils", icon="nut"))
+
+
+      # return a list of all the items that marked
+
+    def save_checked(self):
+
+        allergList=[]
+        mdlist = self.ids.scroll  # get reference to the MDList
+        for item in mdlist.children:
+            if isinstance(item, ListItemWithCheckbox):  # only interested in the ListItemWithCheckboxes- isinstance cheking if item is ListItemWithCheckbox
+                cb = item.ids.cb  # use the id defined in kv
+                if cb.active:  # only print selected items
+                    allergList.append(IallergicEng.index(item.text))# insert to the list the index of the item 
+        
+        return allergList
 
 
 
 
-
-
-
+'''
+ screen to upload/take a product picture 
+'''
 class UploadScreen(Screen):
     cameraActive = BooleanProperty(False)
     capture = cv2.VideoCapture()
 
     def start_camera(self):
-
+            # if the camera turn off
         if not self.cameraActive:
             self.ids.camera_button.text = 'Stop Camera'
             self.image = self.ids.my_image
@@ -68,9 +114,11 @@ class UploadScreen(Screen):
             self.cameraActive = False
             self.ids.camera_button.text = 'Start Camera'
             if self.capture.isOpened():
+                #take the last frame and save
                 ret,frame = self.capture.read()
                 cv2.imwrite('frame.jpg', frame)
                 self.cameraActive = False
+                #set on the screen
                 self.ids.my_image.source ='frame.jpg'
                 self.capture.release()
 
@@ -80,13 +128,8 @@ class UploadScreen(Screen):
     def on_upload_back(self):
         self.cameraActive = False
         self.ids.camera_button.text = 'Start Camera'
-        if self.capture.isOpened():
-            ret, frame = self.capture.read()
-            cv2.imwrite('frame.jpg', frame)
-            image = cv2.imread(frame.jpg)
-            self.ids.my_image = image
-            self.capture.release()
-
+        self.ids.my_image.source="galleryToCameraPage.png"
+        self.capture.release()
         self.manager.current = 'allerg'
 
     def update(self, dt):
@@ -105,15 +148,17 @@ class UploadScreen(Screen):
 
         path = filechooser.open_file(title="Pick a CSV file..")
         pathstr=str(path)
+        #Arranging the path
         pathstr = pathstr.replace('\\\\', "/")
         pathstr = pathstr.replace("[\'", "")
         pathstr = pathstr.replace("\']", "")
         self.ids.my_image.source=pathstr
 
+#to pick a language and send all the information to proccess
 class Lang(Screen):
     dropdown = DropDown()
+    #initialization
     def  on_enter(self, *args):
-
         global dropdown
         lna = ["English", "Spanish", "Russian", "French"]
 
@@ -121,11 +166,11 @@ class Lang(Screen):
             {
                 "viewclass": "IconListItem",
                 "icon": "flag-outline",
+                "font_name": "Sticky Notes.ttf",
                 "height":dp(56),
                 "text": f"{i}",
                 "on_release": lambda x=f"{i}": self.set_item(x),
             }  for i in lna]
-
         dropdown = MDDropdownMenu(
             caller=self.ids.field,
             items=menu_items,
@@ -134,61 +179,20 @@ class Lang(Screen):
         )
         dropdown.open()
 
-
-
     def set_item(self, text__item):
             self.ids.field.text = text__item
             dropdown.dismiss()
 
-
-
-
-
-
+#Organize all the information accumulated from the user throughout the process and send for processing
     def startProcess(self):
-      lang=self.ids.field.text
-      allerg=AllergScreen.save_checked(self.manager.screens[2])
+      lang=self.ids.field.text#language
+      allerg=AllergScreen.save_checked(self.manager.screens[2])#List of allergens
       path= self.manager.screens[1].ids.my_image.source
-      str=codeProject.try3(allerg,path,lang)
-    
-
-
-      self.ids.ansLabel.text=str
+      str=codeProject.Answer_processing(allerg,path,lang)#sending to processing
+      self.ids.ansLabel.text=str#Receiving a final answer
 
 
 
-
-class IconListItem(OneLineIconListItem):
-    icon = StringProperty()
-class AllergScreen(Screen):
-    def on_enter(self, *args):
-
-        x=len(self.ids.scroll.children)
-        if (x== 0):
-         icons = list(md_icons.keys())
-
-         self.ids.scroll.add_widget(ListItemWithCheckbox(text=f"Gluten" , icon="bread-slice"))
-         self.ids.scroll.add_widget( ListItemWithCheckbox(text=f"Milk", icon="cow"))
-         self.ids.scroll.add_widget(ListItemWithCheckbox(text=f"Peanuts", icon="peanut"))
-         self.ids.scroll.add_widget(ListItemWithCheckbox(text=f"Soy", icon="soy-sauce"))
-         self.ids.scroll.add_widget(ListItemWithCheckbox(text=f"Tuna", icon="fish"))
-         self.ids.scroll.add_widget(ListItemWithCheckbox(text=f"Eggs", icon="egg"))
-         self.ids.scroll.add_widget(ListItemWithCheckbox(text=f"Fish", icon="fish"))
-         self.ids.scroll.add_widget(ListItemWithCheckbox(text=f"Nuts", icon="nut"))
-         self.ids.scroll.add_widget(ListItemWithCheckbox(text=f"Tonsils", icon="nut"))
-
-
-    def save_checked(self):
-
-        allergList=[]
-        mdlist = self.ids.scroll  # get reference to the MDList
-        for wid in mdlist.children:
-            if isinstance(wid, ListItemWithCheckbox):  # only interested in the ListItemWithCheckboxes
-                cb = wid.ids.cb  # use the id defined in kv
-                if cb.active:  # only print selected items
-                    allergList.append(IallergicEng.index(wid.text))
-        print(allergList)
-        return allergList
 class DemoApp(MDApp):
     
     def build(self):

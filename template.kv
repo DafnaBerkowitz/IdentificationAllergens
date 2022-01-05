@@ -1,7 +1,10 @@
 #from kivymd.uix.selectioncontrol import MDCheckbox
   #:import MDDropdownMenu kivymd.uix.menu.MDDropdownMenu
+  #:import ScrollEffect  kivy.effects.scroll.ScrollEffect
+  #from kivy.effects.scroll.ScrollEffect import ScrollEffect
+  #:import hex kivy.utils.get_color_from_hex
 ScreenManager:
-
+    font_name:"Sticky Notes.ttf"
     MenuScreen:
     UploadScreen:
     AllergScreen:
@@ -12,22 +15,21 @@ ScreenManager:
 
 <MenuScreen>:
     name: 'menu'
-
+    font_name:"Sticky Notes.ttf"
 	orientation: "vertical"
 	size: root.width, root.height
 
     MDRectangleFlatButton:
-        text: 'Profile'
-        pos_hint: {'center_x':0.5,'center_y':0.5}
-        on_press: root.manager.current = 'profile'
-    MDRectangleFlatButton:
-        text: 'Upload'
-        pos_hint: {'center_x':0.5,'center_y':0.4}
-        on_press: root.manager.current = 'upload'
-    MDRectangleFlatButton:
-        text: 'Allerg'
+        text: 'Test your product'
+        font_size:"50"
+
+
+        font_name:"Sticky Notes.ttf"
+        line_width:"2"
         pos_hint: {'center_x':0.5,'center_y':0.3}
-        on_press: root.manager.current = 'allerg'
+        on_press:
+            root.manager.current = 'allerg'
+            text_color: "#211c29"
 
 
 
@@ -44,14 +46,22 @@ ScreenManager:
         source: "galleryToCameraPage.png"
         size_hint_y: None  # Tells the layout to ignore the size_hint in y dir
         height: dp(300)  # The fixed height you want
+
         pos_hint: {'center_x':0.5,'center_y':0.5}
 
 
     MDLabel:
         text: 'select or take a picture of your product'
+        font_size:"40"
+        font_name:"Sticky Notes.ttf"
+
+        line_width:"2"
         pos_hint: {'center_x': .7, 'center_y': .9}
     MDRectangleFlatButton:
         text: 'Back'
+        font_size:"20"
+        font_name:"Sticky Notes.ttf"
+        line_width:"2"
         pos_hint: {'center_x':0.3,'center_y':0.1}
         # on_press: root.manager.current = 'menu'
         on_press: root.on_upload_back()
@@ -72,6 +82,10 @@ ScreenManager:
     MDRaisedButton:
         pos_hint: {'center_x': .9, 'center_y': .04}
         text: "next"
+        font_size:"20"
+        font_name:"Sticky Notes.ttf"
+        line_width:"2"
+
         on_release:
             root.manager.current = 'lang'
 
@@ -80,15 +94,34 @@ ScreenManager:
 
     MDLabel:
         text: 'Select your Allergan'
+        font_name: 'Sticky Notes.ttf'
+        font_size: "32"
         pos_hint: {'center_x': .9, 'center_y': .9}
 
     ScrollView:
+        bar_width: 6
+        scroll_timeout: 250
+        scroll_distance: 20
+        do_scroll_y: True
+        do_scroll_x: False
+        pos_hint: {'top': 1}
+        bar_width: 8
+        bar_color: 1, 0, 0, 1   # red
+        bar_inactive_color: 0, 0, 1, 1   # blue
+        effect_cls: "ScrollEffect"
+        scroll_type: ['bars']
 
-        scroll_timeout : 100
+
+
+
+        size_hint:(.8,.8)
         pos_hint: {'center_x': .5, 'center_y': .4}
+
         MDList:
             id: scroll
-            padding:20
+            spacing: 5
+            padding: 10
+
 
     MDRaisedButton:
         pos_hint: {'center_x': .9, 'center_y': .04}
@@ -97,7 +130,6 @@ ScreenManager:
             root.save_checked()
             root.manager.current = 'upload'
 
-
 <ListItemWithCheckbox>:
 
     IconLeftWidget:
@@ -105,6 +137,7 @@ ScreenManager:
 
     RightCheckbox:
         listItem: root
+
         id: cb
 
 
@@ -113,6 +146,9 @@ ScreenManager:
     MDRectangleFlatButton:
         id: startProcess
         text: 'start'
+        font_size:"20"
+        font_name:"Sticky Notes.ttf"
+        line_width:"2"
         pos_hint: {'center_x':0.5,'center_y':0.1}
         on_press: root.startProcess()
     MDTextField:
@@ -121,13 +157,22 @@ ScreenManager:
         size_hint_x: None
         width: "200dp"
         hint_text: "Choose your product language"
+        font_size:"20"
+        font_name:"Sticky Notes.ttf"
+        line_width:"2"
         on_focus: if self.focus:root.on_enter(*args)
     MDLabel:
         id: ansLabel
         text: ''
+        font_size:"50"
+        font_name:"Sticky Notes.ttf"
+        line_width:"2"
         pos_hint: {'center_x': .7, 'center_y': .9}
     MDRectangleFlatButton:
         text: 'Back'
+        font_size:"20"
+        font_name:"Sticky Notes.ttf"
+        line_width:"2"
         pos_hint: {'center_x': .3, 'center_y': .04}
         on_press: root.manager.current = 'upload'
 

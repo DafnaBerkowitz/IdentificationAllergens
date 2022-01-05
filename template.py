@@ -1,6 +1,7 @@
 from kivy.uix import dropdown
 from kivy.uix.dropdown import DropDown
 
+
 from kivymd.app import MDApp
 from kivy.lang.builder import Builder
 from kivy.uix.screenmanager import Screen
@@ -149,10 +150,13 @@ class Lang(Screen):
       allerg=AllergScreen.save_checked(self.manager.screens[2])
       path= self.manager.screens[1].ids.my_image.source
       str=codeProject.try3(allerg,path,lang)
+    
+
+
       self.ids.ansLabel.text=str
 
-    def restart(self):
-        self.manager.screens[0].restart()
+
+
 
 class IconListItem(OneLineIconListItem):
     icon = StringProperty()
@@ -163,7 +167,7 @@ class AllergScreen(Screen):
         if (x== 0):
          icons = list(md_icons.keys())
 
-         self.ids.scroll.add_widget(ListItemWithCheckbox(text=f"Gluten", icon="bread-slice"))
+         self.ids.scroll.add_widget(ListItemWithCheckbox(text=f"Gluten" , icon="bread-slice"))
          self.ids.scroll.add_widget( ListItemWithCheckbox(text=f"Milk", icon="cow"))
          self.ids.scroll.add_widget(ListItemWithCheckbox(text=f"Peanuts", icon="peanut"))
          self.ids.scroll.add_widget(ListItemWithCheckbox(text=f"Soy", icon="soy-sauce"))

@@ -16,6 +16,8 @@ IallergicRus=['Глютен', 'молоко', 'арахис', 'соя', 'тун�
 IallergicSpa=['Gluten', 'leche', 'maní', 'soja', 'atún', 'huevos', 'pescado', 'nueces', 'amígdalas']
 
 def try3(arrAllerg,path,lang):
+  if path=="galleryToCameraPage.png":
+      return "Product image not captured, please return to previous step"
   path = path.replace('\\\\', "/")
   path=path.replace("[\'","")
   path=path.replace("\']","")

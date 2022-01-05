@@ -23,7 +23,6 @@ ScreenManager:
         text: 'Test your product'
         font_size:"50"
 
-
         font_name:"Sticky Notes.ttf"
         line_width:"2"
         pos_hint: {'center_x':0.5,'center_y':0.3}
@@ -55,17 +54,17 @@ ScreenManager:
         color:.03, .6, .9, 1
         font_size:"40"
         font_name:"Sticky Notes.ttf"
-
         line_width:"2"
         pos_hint: {'center_x': .75, 'center_y': .9}
-    MDRaisedButton:
-        pos_hint: {'center_x': .075, 'center_y': .05}
-        text: "Back"
-        font_size:"20"
-        font_name:"Sticky Notes.ttf"
-        line_width:"2"
+
+    MDIconButton:
+        id: back_button
+        pos_hint: {'center_x': .07, 'center_y': .5}
+        icon: 'arrow-left-circle'
+        user_font_size : "48sp"
         # on_press: root.manager.current = 'allerg'
         on_press: root.on_upload_back()
+
     MDIconButton:
         id: camera_button
         icon:"camera.png"
@@ -80,13 +79,11 @@ ScreenManager:
         pos_hint: {'center_x':0.5,'center_y':0.1}
         on_press: root.upload_file()
 
-    MDRaisedButton:
-        pos_hint: {'center_x': .92, 'center_y': .05}
-        text: "next"
-        font_size:"20"
-        font_name:"Sticky Notes.ttf"
-        line_width:"2"
-
+    MDIconButton:
+        id: next_button
+        pos_hint: {'center_x': .93, 'center_y': .5}
+        icon: 'arrow-right-circle'
+        user_font_size : "48sp"
         on_release:
             root.manager.current = 'lang'
 
@@ -112,10 +109,6 @@ ScreenManager:
         bar_color: .5, .5, .5, 1
         effect_cls: "ScrollEffect"
         scroll_type: ['bars']
-
-
-
-
         size_hint:(.8,.7)
         pos_hint: {'center_x': .5, 'center_y': .5}
 
@@ -124,12 +117,11 @@ ScreenManager:
             spacing: 5
             padding: 10
 
-
-    MDRaisedButton:
-        pos_hint: {'center_x': .92, 'center_y': .05}
-        text: "next"
-        font_name: 'Sticky Notes.ttf'
-        font_size:"20"
+    MDIconButton:
+        id: next_button
+        pos_hint: {'center_x': .93, 'center_y': .5}
+        icon: 'arrow-right-circle'
+        user_font_size : "48sp"
         on_release:
             root.save_checked()
             root.manager.current = 'upload'
@@ -147,6 +139,7 @@ ScreenManager:
 
 <Lang>:
     name: 'lang'
+
     MDRectangleFlatButton:
         id: startProcess
         text: 'start'
@@ -155,6 +148,7 @@ ScreenManager:
         line_width:"2"
         pos_hint: {'center_x':0.5,'center_y':0.1}
         on_press: root.startProcess()
+
     MDTextField:
         id: field
         pos_hint: {'center_x': .5, 'center_y': .6}
@@ -165,6 +159,7 @@ ScreenManager:
         font_name:"Sticky Notes.ttf"
         line_width:"2"
         on_focus: if self.focus:root.on_enter(*args)
+
     MDLabel:
         id: ansLabel
         text: ''
@@ -172,12 +167,12 @@ ScreenManager:
         font_name:"Sticky Notes.ttf"
         line_width:"2"
         pos_hint: {'center_x': .7, 'center_y': .9}
-    MDRaisedButton:
-        pos_hint: {'center_x': .075, 'center_y': .05}
-        text: "Back"
-        font_size:"20"
-        font_name:"Sticky Notes.ttf"
-        line_width:"2"
+
+    MDIconButton:
+        id: back_button
+        pos_hint: {'center_x': .07, 'center_y': .5}
+        icon: 'arrow-left-circle'
+        user_font_size : "48sp"
         on_press: root.manager.current = 'upload'
 
 

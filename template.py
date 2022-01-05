@@ -119,7 +119,7 @@ class Lang(Screen):
         menu_items = [
             {
                 "viewclass": "IconListItem",
-                "icon": "git",
+                "icon": "flag-outline",
                 "height":dp(56),
                 "text": f"{i}",
                 "on_release": lambda x=f"{i}": self.set_item(x),
@@ -159,28 +159,16 @@ class AllergScreen(Screen):
         x=len(self.ids.scroll.children)
         if (x== 0):
          icons = list(md_icons.keys())
+
          self.ids.scroll.add_widget(ListItemWithCheckbox(text=f"Gluten", icon="bread-slice"))
-
-
-         self.ids.scroll.add_widget( ListItemWithCheckbox(text=f"milk", icon="cow") )
-         self.ids.scroll.add_widget(ListItemWithCheckbox(text=f"peanuts", icon="peanut"))
-         self.ids.scroll.add_widget(ListItemWithCheckbox(text=f"Soy", icon="soy-sauce")
-         )
-         self.ids.scroll.add_widget(
-            ListItemWithCheckbox(text=f"tuna", icon="fish")
-         )
-         self.ids.scroll.add_widget(
-            ListItemWithCheckbox(text=f"Eggs", icon="nut")
-         )
-         self.ids.scroll.add_widget(
-            ListItemWithCheckbox(text=f"Fish", icon="nut")
-         )
-         self.ids.scroll.add_widget(
-            ListItemWithCheckbox(text=f"nuts", icon=icons[1])
-         )
-         self.ids.scroll.add_widget(
-            ListItemWithCheckbox(text=f"tonsils", icon=icons[1])
-         )
+         self.ids.scroll.add_widget( ListItemWithCheckbox(text=f"Milk", icon="cow"))
+         self.ids.scroll.add_widget(ListItemWithCheckbox(text=f"Peanuts", icon="peanut"))
+         self.ids.scroll.add_widget(ListItemWithCheckbox(text=f"Soy", icon="soy-sauce"))
+         self.ids.scroll.add_widget(ListItemWithCheckbox(text=f"Tuna", icon="fish"))
+         self.ids.scroll.add_widget(ListItemWithCheckbox(text=f"Eggs", icon="egg"))
+         self.ids.scroll.add_widget(ListItemWithCheckbox(text=f"Fish", icon="fish"))
+         self.ids.scroll.add_widget(ListItemWithCheckbox(text=f"nuts", icon="nut"))
+         self.ids.scroll.add_widget(ListItemWithCheckbox(text=f"tonsils", icon="nut"))
 
 
     def save_checked(self):

@@ -22,7 +22,7 @@ ScreenManager:
         Rectangle:
             pos: self.pos
             size: self.size
-            source: 'foodBack.png'
+            source: 'toEat.png'
 
     MDRectangleFlatButton:
         text: 'Test your product'
@@ -36,7 +36,7 @@ ScreenManager:
             root.manager.current = 'allerg'
         canvas.before:
             Color:
-                rgba: (.262, .419, .607, 1) if self.state=='normal' else (0,.7,.7,1)  # visual feedback of press
+                rgba: (.3058, .4392, .6862, 1) if self.state=='normal' else (0,.7,.7,1)  # visual feedback of press
             RoundedRectangle:
                 pos: self.pos
                 size: self.size
@@ -71,7 +71,7 @@ ScreenManager:
 
     MDLabel:
         text: 'select or take a picture of your product'
-        color:.262, .419, .607, 1
+        color:.3058, .4392, .6862, 1
         font_size:"40"
         font_name:"Sticky Notes.ttf"
         line_width:"2"
@@ -118,7 +118,7 @@ ScreenManager:
             source: '2eat_screen.png'
     MDLabel:
         text: 'Select your Allergan'
-        color:.262, .419, .607, 1
+        color:.3058, .4392, .6862, 1
         font_name: 'Sticky Notes.ttf'
         font_size: "40"
         pos_hint: {'center_x': .85, 'center_y': .9}
@@ -130,13 +130,12 @@ ScreenManager:
         do_scroll_y: True
         do_scroll_x: False
         pos_hint: {'top': 1}
-        bar_width: 8
 
-        bar_inactive_color: .262, .419, .607, 1
+        bar_inactive_color: .3058, .4392, .6862, 1
         bar_color: .5, .5, .5, 1
         effect_cls: "ScrollEffect"
         scroll_type: ['bars']
-        size_hint:(.8,.7)
+        size_hint:(.7,.7)
         pos_hint: {'center_x': .5, 'center_y': .5}
 
         MDList:
@@ -163,7 +162,7 @@ ScreenManager:
         icon: root.icon
 
     RightCheckbox:
-        color: .262, .419, .607, 1
+        color: .3058, .4392, .6862, 1
         listItem: root
         on_release: root.check()
 

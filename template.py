@@ -222,11 +222,11 @@ class Lang(Screen):
       whynot,caneat=codeProject.Answer_processing(allerg,path,lang)#sending to processing
       strAnswer=""
       if not caneat:
-           strAnswer="The product contains from your list: \n"
+           strAnswer="       The product contains\n       these allergens from\n        your list: "
            strAnswer+=whynot
            strAnswer+="\n"+"           Do not eat!"
       else:
-          strAnswer="This product does not contain products\n    from your list of allergens.\n       enjoy your meal!"
+          strAnswer="      This product does not\n       contain products from\n       your list of allergens.\n          enjoy your meal!"
 
       self.ids.ansLabel.text=strAnswer#Receiving a final answer
       Lang.hide_widget(self.ids.field,True)

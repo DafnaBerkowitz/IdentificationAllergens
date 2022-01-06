@@ -18,11 +18,16 @@ ScreenManager:
     font_name:"Sticky Notes.ttf"
 	orientation: "vertical"
 	size: root.width, root.height
+	canvas.before:
+        Rectangle:
+            pos: self.pos
+            size: self.size
+            source: 'foodBack.png'
 
     MDRectangleFlatButton:
         text: 'Test your product'
         font_size:"50"
-
+        text_color:.262, .419, .607, 1
         font_name:"Sticky Notes.ttf"
         line_width:"2"
         pos_hint: {'center_x':0.5,'center_y':0.3}

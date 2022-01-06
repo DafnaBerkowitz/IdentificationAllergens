@@ -60,6 +60,7 @@ class AllergScreen(Screen):
     initialization
     '''
     def on_enter(self, *args):
+
         x = len(self.ids.scroll.children)
         if (x == 0):#In order not to reboot the list every time you return to the screen
          icons = list(md_icons.keys())
@@ -116,11 +117,16 @@ class UploadScreen(Screen):
             if self.capture.isOpened():
                 #take the last frame and save
                 ret,frame = self.capture.read()
-                cv2.imwrite('frame.jpg', frame)
+                good=cv2.imwrite('frame1.jpg', frame)
                 self.cameraActive = False
-                #set on the screen
-                self.ids.my_image.source ='frame.jpg'
+                # set on the screen
                 self.capture.release()
+                self.ids.my_image.source = 'frame1.jpg'
+
+
+                if good:
+                  print ("good")
+
 
 
         return self.capture
@@ -128,7 +134,8 @@ class UploadScreen(Screen):
     def on_upload_back(self):
         self.cameraActive = False
         self.ids.camera_button.text = 'Start Camera'
-        self.ids.my_image.source="galleryToCameraPage.png"
+
+        self.ids.my_image.source="frame1.jpg"
         self.capture.release()
         self.manager.current = 'allerg'
 
@@ -159,6 +166,10 @@ class Lang(Screen):
     dropdown = DropDown()
     #initialization
     def  on_enter(self, *args):
+        self.ids.ansLabel.text = ""  # Receiving a final answer
+        Lang.hide_widget(self.ids.field, False)
+        Lang.hide_widget(self.ids.startProcess, False)
+
         global dropdown
         lna = ["English", "Spanish", "Russian", "French"]
 
@@ -183,7 +194,17 @@ class Lang(Screen):
             self.ids.field.text = text__item
             dropdown.dismiss()
 
-#Organize all the information accumulated from the user throughout the process and send for processing
+    # for Hide Widget accroding our need
+    def hide_widget(wid, dohide=True):
+        if hasattr(wid, 'saved_attrs'):
+            if not dohide:
+                wid.height, wid.size_hint_y, wid.opacity, wid.disabled = wid.saved_attrs
+                del wid.saved_attrs
+        elif dohide:
+            wid.saved_attrs = wid.height, wid.size_hint_y, wid.opacity, wid.disabled
+            wid.height, wid.size_hint_y, wid.opacity, wid.disabled = 0, None, 0, True
+
+    # Organize all the information accumulated from the user throughout the process and send for processing
     def startProcess(self):
       lang=self.ids.field.text#language
       allerg=AllergScreen.save_checked(self.manager.screens[2])#List of allergens
@@ -191,26 +212,30 @@ class Lang(Screen):
       whynot,caneat=codeProject.Answer_processing(allerg,path,lang)#sending to processing
       strAnswer=""
       if not caneat:
-           strAnswer="The product contains: \n"
+           strAnswer="The product contains from your list: \n"
            strAnswer+=whynot
-           strAnswer+="\n"+"From your list of allergens. Do not eat!"
+           strAnswer+="\n"+"           Do not eat!"
       else:
-          strAnswer="This product does not contain products\n from your list of allergens.\n enjoy your meal!"
+          strAnswer="This product does not contain products\n    from your list of allergens.\n       enjoy your meal!"
 
       self.ids.ansLabel.text=strAnswer#Receiving a final answer
+      Lang.hide_widget(self.ids.field,True)
+      Lang.hide_widget(self.ids.startProcess, True)
       if not caneat:
           self.ids.ansLabel.color=.54,.09,.09
+
       else:
           self.ids.ansLabel.color = .03, .6, .9, 1
 
 
 
 
-class DemoApp(MDApp):
+
+
+class Identification_AllergensApp(MDApp):
     
     def build(self):
-
-
+        self.icon = '2Eat.png'
         kv = Builder.load_file("template.kv")
         return kv
 
@@ -220,4 +245,4 @@ class DemoApp(MDApp):
 
 
 if __name__ == "__main__":
-    DemoApp().run()
+    Identification_AllergensApp().run()

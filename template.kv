@@ -26,13 +26,23 @@ ScreenManager:
 
     MDRectangleFlatButton:
         text: 'Test your product'
-        font_size:"50"
-        text_color:.262, .419, .607, 1
+        font_size:"45"
+        line_color:1, 1, 1, 1
+        text_color: 1, 1, 1, 1
         font_name:"Sticky Notes.ttf"
-        line_width:"2"
-        pos_hint: {'center_x':0.5,'center_y':0.3}
+        line_width:"0.1"
+        pos_hint: {'center_x':0.5,'center_y':0.2}
         on_press:
             root.manager.current = 'allerg'
+        canvas.before:
+            Color:
+                rgba: (.262, .419, .607, 1) if self.state=='normal' else (0,.7,.7,1)  # visual feedback of press
+            RoundedRectangle:
+                pos: self.pos
+                size: self.size
+                radius: [50,]
+
+
 
 
 
@@ -44,19 +54,24 @@ ScreenManager:
 
 <UploadScreen>:
     name: 'upload'
+    canvas.before:
+        Rectangle:
+            pos: self.pos
+            size: self.size
+            source: '2eat_screen.png'
 
     Image:
         id: my_image
         source: "galleryToCameraPage.png"
         size_hint_y: None  # Tells the layout to ignore the size_hint in y dir
-        height: dp(300)  # The fixed height you want
+        height: dp(400)  # The fixed height you want
 
         pos_hint: {'center_x':0.5,'center_y':0.5}
 
 
     MDLabel:
         text: 'select or take a picture of your product'
-        color:.03, .6, .9, 1
+        color:.262, .419, .607, 1
         font_size:"40"
         font_name:"Sticky Notes.ttf"
         line_width:"2"
@@ -73,7 +88,7 @@ ScreenManager:
     MDIconButton:
         id: camera_button
         icon:"camera.png"
-        pos_hint: {'center_x':0.7,'center_y':0.1}
+        pos_hint: {'center_x':0.65,'center_y':0.1}
         on_press:
             root.start_camera()
 
@@ -81,7 +96,7 @@ ScreenManager:
         id: uploued_button
         icon:"upload_file.png"
 
-        pos_hint: {'center_x':0.5,'center_y':0.1}
+        pos_hint: {'center_x':0.35,'center_y':0.1}
         on_press: root.upload_file()
 
     MDIconButton:
@@ -94,10 +109,14 @@ ScreenManager:
 
 <AllergScreen>:
     name: 'allerg'
-
+    canvas.before:
+        Rectangle:
+            pos: self.pos
+            size: self.size
+            source: '2eat_screen.png'
     MDLabel:
         text: 'Select your Allergan'
-        color:.03, .6, .9, 1
+        color:.262, .419, .607, 1
         font_name: 'Sticky Notes.ttf'
         font_size: "40"
         pos_hint: {'center_x': .85, 'center_y': .9}
@@ -110,7 +129,8 @@ ScreenManager:
         do_scroll_x: False
         pos_hint: {'top': 1}
         bar_width: 8
-        bar_inactive_color: .03, .6, .9, 1
+
+        bar_inactive_color: .262, .419, .607, 1
         bar_color: .5, .5, .5, 1
         effect_cls: "ScrollEffect"
         scroll_type: ['bars']
@@ -137,6 +157,7 @@ ScreenManager:
         icon: root.icon
 
     RightCheckbox:
+
         listItem: root
 
         id: cb
@@ -171,7 +192,7 @@ ScreenManager:
         font_size:"30"
         font_name:"Cheese Toast.ttf"
         line_width:"2"
-        pos_hint: {'center_x': .7, 'center_y': .9}
+        pos_hint: {'center_x': .7, 'center_y': .5}
 
     MDIconButton:
         id: back_button

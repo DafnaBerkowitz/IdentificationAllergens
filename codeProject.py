@@ -31,12 +31,21 @@ def Answer_processing(arrAllerg, path, lang):
 
   # Arranging the path
   path = path.replace('\\\\', "/")
-  path=path.replace("[\'","")
-  path=path.replace("\']","")
+  path = path.replace("[\'", "")
+  path = path.replace("\']", "")
   image = cv2.imread(path, cv2.IMREAD_GRAYSCALE)
-  cv2.imwrite('thresh.png', image)# white on black
+  # thresh = cv2.threshold(image, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)[1]
+
+
+
+  # data = pytesseract.image_to_string(result, lang='eng',config='--psm 10 ')
+  # print(data)
+  cv2.imwrite('thresh.png', image)
+
 
   img = Image.open('thresh.png')
+
+
 
   #Optimal resolution for the process according to tests we did
   width, heightS = img.size

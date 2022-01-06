@@ -34,13 +34,20 @@ for AllergScreen
 class ListItemWithCheckbox(OneLineAvatarIconListItem):
     '''Custom list item.'''
     icon = StringProperty("android")
+    def check(self):
+        myscreen=self.parent.parent.parent.manager.screens[2]
+        arr=AllergScreen.save_checked(myscreen)
+        if len(arr)==0:
+            myscreen.ids.next_button.disabled = True
+        else:
+            myscreen.ids.next_button.disabled = False
+
+
+
 
 class RightCheckbox(IRightBodyTouch, MDCheckbox):
     '''Custom right container.'''
-    def on_active(self, rcb, value):
-
-            self.data = value
-        #for using icons
+    pass
 class IconListItem(OneLineIconListItem):
     icon = StringProperty()
 
@@ -65,7 +72,7 @@ class AllergScreen(Screen):
         if (x == 0):#In order not to reboot the list every time you return to the screen
          icons = list(md_icons.keys())
 
-         self.ids.scroll.add_widget(ListItemWithCheckbox(text=f"Gluten" , icon="bread-slice"))
+         self.ids.scroll.add_widget(ListItemWithCheckbox(text=f"Gluten" , icon="bread-slice",))
          self.ids.scroll.add_widget( ListItemWithCheckbox(text=f"Milk", icon="cow"))
          self.ids.scroll.add_widget(ListItemWithCheckbox(text=f"Peanuts", icon="peanut"))
          self.ids.scroll.add_widget(ListItemWithCheckbox(text=f"Soy", icon="soy-sauce"))
@@ -86,7 +93,9 @@ class AllergScreen(Screen):
             if isinstance(item, ListItemWithCheckbox):  # only interested in the ListItemWithCheckboxes- isinstance cheking if item is ListItemWithCheckbox
                 cb = item.ids.cb  # use the id defined in kv
                 if cb.active:  # only print selected items
-                    allergList.append(IallergicEng.index(item.text))# insert to the list the index of the item 
+                    allergList.append(IallergicEng.index(item.text))# insert to the list the index of the item
+
+
         
         return allergList
 
@@ -122,6 +131,7 @@ class UploadScreen(Screen):
                 # set on the screen
                 self.capture.release()
                 self.ids.my_image.source = 'frame1.jpg'
+                self.ids.next_button.disabled = False
 
 
                 if good:
@@ -134,8 +144,6 @@ class UploadScreen(Screen):
     def on_upload_back(self):
         self.cameraActive = False
         self.ids.camera_button.text = 'Start Camera'
-
-        self.ids.my_image.source="frame1.jpg"
         self.capture.release()
         self.manager.current = 'allerg'
 
@@ -151,6 +159,7 @@ class UploadScreen(Screen):
             self.image.texture = image_texture
             self.ids.my_image = self.image
 
+
     def upload_file(self):
 
         path = filechooser.open_file(title="Pick a CSV file..")
@@ -160,6 +169,7 @@ class UploadScreen(Screen):
         pathstr = pathstr.replace("[\'", "")
         pathstr = pathstr.replace("\']", "")
         self.ids.my_image.source=pathstr
+        self.ids.next_button.disabled = False
 
 #to pick a language and send all the information to proccess
 class Lang(Screen):
@@ -238,7 +248,6 @@ class Identification_AllergensApp(MDApp):
         self.icon = '2Eat.png'
         kv = Builder.load_file("template.kv")
         return kv
-
 
 
 

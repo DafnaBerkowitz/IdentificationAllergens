@@ -101,6 +101,8 @@ ScreenManager:
 
     MDIconButton:
         id: next_button
+        disabled: True
+        md_bg_color_disabled: (1,1,1,1)
         pos_hint: {'center_x': .93, 'center_y': .5}
         icon: 'arrow-right-circle'
         user_font_size : "48sp"
@@ -144,28 +146,37 @@ ScreenManager:
 
     MDIconButton:
         id: next_button
+        disabled: True
+
+        md_bg_color_disabled: (1,1,1,1)
         pos_hint: {'center_x': .93, 'center_y': .5}
         icon: 'arrow-right-circle'
+        enabled:False
         user_font_size : "48sp"
         on_release:
             root.save_checked()
             root.manager.current = 'upload'
 
 <ListItemWithCheckbox>:
-
+    bg_color: 1,1,1,1
     IconLeftWidget:
         icon: root.icon
 
     RightCheckbox:
-
+        color: .262, .419, .607, 1
         listItem: root
+        on_release: root.check()
 
         id: cb
 
 
 <Lang>:
     name: 'lang'
-
+    canvas.before:
+        Rectangle:
+            pos: self.pos
+            size: self.size
+            source: 'screen3.png'
     MDRectangleFlatButton:
         id: startProcess
         text: 'start'

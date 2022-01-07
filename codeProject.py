@@ -56,40 +56,52 @@ def Answer_processing(arrAllerg, path, lang):
   # Use OCR to read the text from the image  according to the language selected
 
   if lang=="English":
-    data = pytesseract.image_to_string(img, lang='eng')
+    dataA = pytesseract.image_to_string(img, lang='eng')
     arrAllergLang=IallergicEng
   if lang == "Spanish":
-      data = pytesseract.image_to_string(img, lang='spa')
+      dataA = pytesseract.image_to_string(img, lang='spa')
       arrAllergLang = IallergicSpa
   if lang == "Russian":
-      data = pytesseract.image_to_string(img, lang='rus')
+      dataA = pytesseract.image_to_string(img, lang='rus')
       arrAllergLang = IallergicRus
   if lang == "French":
-      data = pytesseract.image_to_string(img, lang='fra')
+      dataA = pytesseract.image_to_string(img, lang='fra')
       arrAllergLang = IallergicFra
 
 
 #Download markings that will interfere with the identification of the text
 #according to tests we have done
-  data=data.replace(',', '')
-  data=data.replace('.','')
-  print(data)#for us
-  #Unity in uppercase and lowercase letters
-  dataLower=data.lower()
+  punctuations = '''!()-[]{};:'"\,<>./?@#$%^&*_~'''
+  data = ""
+  for char in dataA:
+      if char not in punctuations:
+          data+= char
+  print(data)  # for us
+  # Unity in uppercase and lowercase letters
+  dataLower = data.lower()
 
   dataArry= dataLower.split()#Division into an array
   whyNot=""
   caneat=True
-  
+
+
   #We will go through the list of allergens from the user and look in the text layout
   for i in arrAllerg:
       word=arrAllergLang[int(i)]
       wlower = word.lower()
       for j in dataArry:
           jlower = j.lower()
-          if wlower==jlower:
-              whyNot+=IallergicEng[int(i)]+', '
-              caneat =False
+          if wlower==jlower :
+              whyNot+=word+', '
+              caneat = False
+              break;
+          if wlower=='soy' and jlower=='soya':
+              whyNot += word + ', '
+              caneat = False
+              break;
+
+
+
 
   return whyNot,caneat
 

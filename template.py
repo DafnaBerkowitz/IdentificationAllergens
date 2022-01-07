@@ -113,6 +113,7 @@ class UploadScreen(Screen):
             # if the camera turn off
         if not self.cameraActive:
             self.ids.camera_button.text = 'Stop Camera'
+            self.ids.uploued_button.disabled = True
             self.image = self.ids.my_image
             self.capture = cv2.VideoCapture(0)
             if self.capture.isOpened():
@@ -127,6 +128,7 @@ class UploadScreen(Screen):
                 #take the last frame and save
                 ret,frame = self.capture.read()
                 good=cv2.imwrite('frame1.jpg', frame)
+                self.ids.uploued_button.disabled = False
                 self.cameraActive = False
                 # set on the screen
                 self.capture.release()
@@ -160,16 +162,20 @@ class UploadScreen(Screen):
             self.ids.my_image = self.image
 
 
-    def upload_file(self):
 
+    def upload_file(self):
+        self.ids.camera_button.disabled = True
         path = filechooser.open_file(title="Pick a CSV file..")
         pathstr=str(path)
         #Arranging the path
         pathstr = pathstr.replace('\\\\', "/")
         pathstr = pathstr.replace("[\'", "")
         pathstr = pathstr.replace("\']", "")
+        if(pathstr=='[]'):
+            self.ids.my_image.source = 'galleryToCameraPage.png'
         self.ids.my_image.source=pathstr
         self.ids.next_button.disabled = False
+        self.ids.camera_button.disabled = False
 
 #to pick a language and send all the information to proccess
 class Lang(Screen):
@@ -202,6 +208,8 @@ class Lang(Screen):
 
     def set_item(self, text__item):
             self.ids.field.text = text__item
+            self.ids.startProcess.disabled=False
+
             dropdown.dismiss()
 
     # for Hide Widget accroding our need
@@ -226,7 +234,7 @@ class Lang(Screen):
            strAnswer+=whynot
            strAnswer+="\n"+"           Do not eat!"
       else:
-          strAnswer="      This product does not\n       contain products from\n       your list of allergens.\n          enjoy your meal!"
+          strAnswer="      This product does not\n       contain products from\n                your list.\n              bon appetit!"
 
       self.ids.ansLabel.text=strAnswer#Receiving a final answer
       Lang.hide_widget(self.ids.field,True)

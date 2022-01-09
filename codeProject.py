@@ -71,7 +71,7 @@ def Answer_processing(arrAllerg, path, lang):
 
 #Download markings that will interfere with the identification of the text
 #according to tests we have done
-  punctuations = '''!()-[]{};:'"\,<>./?@#$%^&*_~'''
+  punctuations = '''!()[]{};:'"\,<>./?@#$%^&*_~'''
   data = ""
   for char in dataA:
       if char not in punctuations:
@@ -95,10 +95,15 @@ def Answer_processing(arrAllerg, path, lang):
               whyNot+=word+', '
               caneat = False
               break;
+              #Allergens with 2 writing forms
           if wlower=='soy' and jlower=='soya':
               whyNot += word + ', '
               caneat = False
               break;
+          if wlower == 'eggs' and jlower == 'egg':
+                  whyNot += word + ', '
+                  caneat = False
+                  break;
 
 
 

@@ -22,7 +22,7 @@ Gets 3 parameters: the list of allergens for testing,
  the path of the image to be tested,
 and the processing language
  
- Returns a final answer in str if the product is allowed to be eaten
+ Return Bool if an allergen is found, and return a list of found allergens.
 '''
 def Answer_processing(arrAllerg, path, lang):
 
@@ -91,6 +91,7 @@ def Answer_processing(arrAllerg, path, lang):
       wlower = word.lower()
       for j in dataArry:
           jlower = j.lower()
+          #
           if wlower==jlower :
               whyNot+=word+', '
               caneat = False
@@ -104,6 +105,10 @@ def Answer_processing(arrAllerg, path, lang):
                   whyNot += word + ', '
                   caneat = False
                   break;
+          if wlower=='gluten' and jlower=='wheat':
+              whyNot += word + ', '
+              caneat = False
+              break;
 
 
 

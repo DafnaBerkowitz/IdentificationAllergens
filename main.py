@@ -64,7 +64,7 @@ Screen for selecting the desired allergens for testing
 '''
 class AllergScreen(Screen):
     '''
-    initialization
+    initialization list of the ellargan (checkBox)
     '''
     def on_enter(self, *args):
 
@@ -82,9 +82,7 @@ class AllergScreen(Screen):
          self.ids.scroll.add_widget(ListItemWithCheckbox(text=f"Nuts", icon="nut"))
          self.ids.scroll.add_widget(ListItemWithCheckbox(text=f"Tonsils", icon="nut"))
 
-
-      # return a list of all the items that marked
-
+ # return a list of all the items that marked in the checkBox
     def save_checked(self):
 
         allergList=[]
@@ -95,8 +93,6 @@ class AllergScreen(Screen):
                 if cb.active:  # only print selected items
                     allergList.append(IallergicEng.index(item.text))# insert to the list the index of the item
 
-
-        
         return allergList
 
 
@@ -108,7 +104,7 @@ class AllergScreen(Screen):
 class UploadScreen(Screen):
     cameraActive = BooleanProperty(False)
     capture = cv2.VideoCapture()
-
+# open/close camera button
     def start_camera(self):
             # if the camera turn off
         if not self.cameraActive:
@@ -121,34 +117,30 @@ class UploadScreen(Screen):
                 Clock.schedule_interval(self.update, 1.0 / 10.0)
             else:
                 print('Cannot Open the Camera at index 0')
-        else:
+        else:#close camera
             self.cameraActive = False
             self.ids.camera_button.text = 'Start Camera'
             if self.capture.isOpened():
                 #take the last frame and save
                 ret,frame = self.capture.read()
-                good=cv2.imwrite('frame1.jpg', frame)
+                cv2.imwrite('frame1.jpg', frame)
                 self.ids.uploued_button.disabled = False
                 self.cameraActive = False
                 # set on the screen
-                self.capture.release()
+                self.capture.release()#close camera
                 self.ids.my_image.source = 'frame1.jpg'
                 self.ids.next_button.disabled = False
 
-
-                if good:
-                  print ("good")
-
-
-
         return self.capture
 
+# icon Back
     def on_upload_back(self):
         self.cameraActive = False
         self.ids.camera_button.text = 'Start Camera'
         self.capture.release()
         self.manager.current = 'allerg'
 
+# video update on screen all the time
     def update(self, dt):
         ret, frame = self.capture.read()
         if ret:
@@ -162,7 +154,7 @@ class UploadScreen(Screen):
             self.ids.my_image = self.image
 
 
-
+#uploading files frome the device
     def upload_file(self):
         self.ids.camera_button.disabled = True
         path = filechooser.open_file(title="Pick a CSV file..")
@@ -209,7 +201,6 @@ class Lang(Screen):
     def set_item(self, text__item):
             self.ids.field.text = text__item
             self.ids.startProcess.disabled=False
-
             dropdown.dismiss()
 
     # for Hide Widget accroding our need

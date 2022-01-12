@@ -110,7 +110,7 @@ def Answer_processing(arrAllerg, path, lang):
               caneat = False
               break;
 
-
+  whyNot=whyNot[:-2]
 
 
   return whyNot,caneat

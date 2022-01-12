@@ -82,7 +82,7 @@ class AllergScreen(Screen):
          self.ids.scroll.add_widget(ListItemWithCheckbox(text=f"Nuts", icon="nut"))
          self.ids.scroll.add_widget(ListItemWithCheckbox(text=f"Tonsils", icon="nut"))
 
- # return a list of all the items that marked in the checkBox
+ # return a list of number of all the items that marked in the checkBox by their location index in the list
     def save_checked(self):
 
         allergList=[]
@@ -133,12 +133,12 @@ class UploadScreen(Screen):
 
         return self.capture
 
-# icon Back
+# icon Back. release camera if open
     def on_upload_back(self):
         self.cameraActive = False
         self.ids.camera_button.text = 'Start Camera'
         self.capture.release()
-        self.manager.current = 'allerg'
+        self.manager.current = 'allerg'#back to the allerg windows
 
 # video update on screen all the time
     def update(self, dt):
@@ -157,19 +157,21 @@ class UploadScreen(Screen):
 #uploading files frome the device
     def upload_file(self):
         self.ids.camera_button.disabled = True
-        path = filechooser.open_file(title="Pick a CSV file..")
+        path = filechooser.open_file(title="Pick a Image file..")
         pathstr=str(path)
-        #Arranging the path
+        #Arranging the path- in some computers the slashes in the path are doubled
         pathstr = pathstr.replace('\\\\', "/")
         pathstr = pathstr.replace("[\'", "")
         pathstr = pathstr.replace("\']", "")
-        if(pathstr=='[]'):
+        if(pathstr=='[]'):#cancal upload file
             self.ids.my_image.source = 'galleryToCameraPage.png'
-        self.ids.my_image.source=pathstr
-        self.ids.next_button.disabled = False
+        else:
+         self.ids.my_image.source=pathstr
+         self.ids.next_button.disabled = False
         self.ids.camera_button.disabled = False
-
-#to pick a language and send all the information to proccess
+'''
+ windows to pick a language and send all the information to process 
+'''
 class Lang(Screen):
     dropdown = DropDown()
     #initialization
@@ -190,6 +192,7 @@ class Lang(Screen):
                 "text": f"{i}",
                 "on_release": lambda x=f"{i}": self.set_item(x),
             }  for i in lna]
+        #insert language to the dropDown
         dropdown = MDDropdownMenu(
             caller=self.ids.field,
             items=menu_items,
@@ -197,7 +200,7 @@ class Lang(Screen):
             width_mult=4,
         )
         dropdown.open()
-
+ # After choosing language
     def set_item(self, text__item):
             self.ids.field.text = text__item
             self.ids.startProcess.disabled=False
@@ -217,8 +220,8 @@ class Lang(Screen):
     def startProcess(self):
       lang=self.ids.field.text#language
       allerg=AllergScreen.save_checked(self.manager.screens[2])#List of allergens
-      path= self.manager.screens[1].ids.my_image.source
-      whynot,caneat=codeProject.Answer_processing(allerg,path,lang)#sending to processing
+      path= self.manager.screens[1].ids.my_image.source#image
+      whynot,caneat=codeProject.Answer_processing(allerg,path,lang)#sending to processing, return bool and list
       strAnswer=""
       if not caneat:
            strAnswer="       The product contains\n       these allergens from\n        your list: "
@@ -228,6 +231,7 @@ class Lang(Screen):
           strAnswer="      This product does not\n       contain products from\n                your list.\n              bon appetit!"
 
       self.ids.ansLabel.text=strAnswer#Receiving a final answer
+
       Lang.hide_widget(self.ids.field,True)
       Lang.hide_widget(self.ids.startProcess, True)
       if not caneat:

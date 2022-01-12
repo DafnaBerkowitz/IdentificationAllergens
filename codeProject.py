@@ -16,9 +16,11 @@ IallergicFra=['Gluten', 'lait', 'cacahuètes', 'soja', 'thon', 'œufs', 'poisson
 IallergicRus=['Глютен', 'молоко', 'арахис', 'соя', 'тунец', 'яйца', 'рыба', 'орехи', 'миндалины']
 IallergicSpa=['Gluten', 'leche', 'maní', 'soja', 'atún', 'huevos', 'pescado', 'nueces', 'amígdalas']
 
+
+
 '''
 Image processing function:
-Gets 3 parameters: the list of allergens for testing,
+Gets 3 parameters: the list of index of allergens for testing,
  the path of the image to be tested,
 and the processing language
  
@@ -33,19 +35,10 @@ def Answer_processing(arrAllerg, path, lang):
   path = path.replace('\\\\', "/")
   path = path.replace("[\'", "")
   path = path.replace("\']", "")
-  image = cv2.imread(path, cv2.IMREAD_GRAYSCALE)
-  # thresh = cv2.threshold(image, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)[1]
-
-
-
-  # data = pytesseract.image_to_string(result, lang='eng',config='--psm 10 ')
-  # print(data)
+  image = cv2.imread(path, cv2.IMREAD_GRAYSCALE)#Black and white
   cv2.imwrite('thresh.png', image)
 
-
   img = Image.open('thresh.png')
-
-
 
   #Optimal resolution for the process according to tests we did
   width, heightS = img.size
@@ -86,13 +79,13 @@ def Answer_processing(arrAllerg, path, lang):
 
 
   #We will go through the list of allergens from the user and look in the text layout
-  for i in arrAllerg:
-      word=arrAllergLang[int(i)]
+  for i in arrAllerg:#The user's list
+      word=arrAllergLang[int(i)]#find the allerg according the language selected
       wlower = word.lower()
       for j in dataArry:
           jlower = j.lower()
-          #
-          if wlower==jlower :
+
+          if wlower==jlower :#the allerg found in data
               whyNot+=word+', '
               caneat = False
               break;
